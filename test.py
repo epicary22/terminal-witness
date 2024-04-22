@@ -7,7 +7,15 @@ sys.stdout.write("\033[H")
 # flush the output
 sys.stdout.flush()
 
-# read in 5 characters
-my_chars = sys.stdin.read(5)
-# print out those 5 characters
-sys.stdout.write(my_chars)
+# read in a line
+my_line = sys.stdin.readline()
+for i in range(52, 87):
+	# turn the text purple
+	sys.stdout.write(f"\033[38;5;{i}m")
+	# put the cursor at some position
+	sys.stdout.write(f"\033[{i - 52};{i - 52}H")
+	# print out my line
+	sys.stdout.write(my_line)
+# turn the text back to normal
+sys.stdout.write("\033[0m")
+sys.stdin.tell()
