@@ -8,22 +8,28 @@ curses.initscr()
 def main(stdscr: curses.window):
 	curses.cbreak()
 	
+	pointer = Cursor()
 	controller = CursesController(
 		stdscr.getkey,
 		{
-			"h": lambda: stdscr.addstr("left"),
-			"j": lambda: stdscr.addstr("down"),
-			"k": lambda: stdscr.addstr("up"),
-			"l": lambda: stdscr.addstr("right")
+			"h": pointer.left,
+			"j": pointer.down,
+			"k": pointer.up,
+			"l": pointer.right
 		}
 	)
-	pointer = Cursor()
 	
 	stdscr.clear()
 	stdscr.refresh()
 	
 	while True:
+		# stdscr.clear()
+		
 		controller.run()
+		pointer.update()
+		stdscr.addstr(*pointer.position(), "X")
+		# stdscr.addstr(2, 2, str(pointer.position()))
+		
 		stdscr.refresh()
 	
 	

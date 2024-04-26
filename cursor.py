@@ -93,6 +93,8 @@ class Cursor:
 	def update(self) -> None:
 		"""
 		Applies the current transform to the position of the cursor, updating its position.
+		Resets the transformation to (0, 0).
 		"""
 		self.y, self.x = self.next_position()
+		self.transform_y, self.transform_x = (0, 0)
 		
