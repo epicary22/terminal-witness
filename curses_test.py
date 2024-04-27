@@ -7,6 +7,7 @@ curses.initscr()
 
 def main(stdscr: curses.window):
 	curses.cbreak()
+	curses.curs_set(0)
 	
 	pointer = Cursor()
 	controller = CursesController(
@@ -19,18 +20,17 @@ def main(stdscr: curses.window):
 		}
 	)
 	
-	stdscr.clear()
-	stdscr.refresh()
-	
 	while True:
-		# stdscr.clear()
-		
-		controller.run()
+		# update visuals
+		stdscr.erase()
+
 		pointer.update()
 		stdscr.addstr(*pointer.position(), "X")
-		# stdscr.addstr(2, 2, str(pointer.position()))
 		
 		stdscr.refresh()
+		
+		# take input
+		controller.run()
 	
 	
 curses.wrapper(main)
