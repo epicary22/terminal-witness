@@ -11,11 +11,11 @@ class Cursor:
 		self.x, self.y = starting_pos
 		self.transform_x, self.transform_y = (0, 0)
 		
-	def zero_axes(self, y: bool = False, x: bool = False) -> None:
+	def zero_axes(self, y: bool = True, x: bool = True) -> None:
 		"""
 		Zeroes the x axis, y axis, or both. Overwrites previous transformations not yet applied.
-		:param y: If True, the y coordinate will be zeroed.
-		:param x: If True, the x coordinate will be zeroed.
+		:param y: If True, the y coordinate will be zeroed. True by default.
+		:param x: If True, the x coordinate will be zeroed. True by default.
 		"""
 		if y:
 			self.transform_y = -self.y
@@ -58,11 +58,11 @@ class Cursor:
 		self.transform_y += transform[0]
 		self.transform_x += transform[1]
 		
-	def cancel_transform(self, y: bool = False, x: bool = False) -> None:
+	def cancel_transform(self, y: bool = True, x: bool = True) -> None:
 		"""
 		Cancels the x, y, or both axes of the current transform.
-		:param y: If True, will cancel the y transform.
-		:param x: If True, will cancel the x transform.
+		:param y: If True, will cancel the y transform. True by default.
+		:param x: If True, will cancel the x transform. True by default.
 		"""
 		if y:
 			self.transform_y = 0

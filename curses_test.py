@@ -29,12 +29,15 @@ def main(stdscr: curses.window):
 
 		pointer.update()
 		stdscr.addstr(*pointer.position(), "X")
-		stdscr.addstr(0, 0, str(box.collides_point(pointer.position())))
 		
 		stdscr.refresh()
 		
 		# take input
 		controller.run()
-	
+		
+		# check collisions
+		if box.collides_point(pointer.next_position()):
+			pointer.cancel_transform()
+		
 	
 curses.wrapper(main)
