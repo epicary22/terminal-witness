@@ -112,20 +112,20 @@ class CollisionsLayer:
 			return
 		self.collisions[index] = colliding
 		
-	def add_rect(self, colliding: bool, y_size: int, x_size: int, top_left: tuple[int, int] = (0, 0)) -> None:
+	def add_rect(self, colliding: bool, y_size: int, x_size: int, relative_top_left: tuple[int, int] = (0, 0)) -> None:
 		"""
 		Adds a rectangular area of collision or non-collision. If a part goes outside of the layer bounds, it will be
 		ignored.
 		:param colliding: Whether the rectangular area should be colliding (True) or non-colliding (False).
 		:param y_size: The height of the rectangular area.
 		:param x_size: The width of the rectangular area.
-		:param top_left: The top-left coordinate of the rectangle, relative to the top left of this CollisionsLayer.
-			Is in (y, x) form. Defaults to (0, 0) (the top left coordinate of this CollisionsLayer)
+		:param relative_top_left: The top-left coordinate of the rectangle, relative to the top left of this
+			CollisionsLayer. Is in (y, x) form. Defaults to (0, 0) (the top left coordinate of this CollisionsLayer)
 		"""
-		top_y = top_left[0]
-		left_x = top_left[1]
-		bottom_y = top_y + y_size - 1
-		right_x = left_x + x_size - 1
+		top_y = relative_top_left[0]
+		left_x = relative_top_left[1]
+		bottom_y = top_y + y_size
+		right_x = left_x + x_size
 		
 		if top_y > bottom_y or left_x > right_x:  # if the "top left" is not really the top left
 			return

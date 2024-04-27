@@ -23,6 +23,11 @@ def main(stdscr: curses.window):
 	box = CollisionsLayer(1, 1, (2, 2))
 	box.set_all(True)
 	
+	bounds = CollisionsLayer(curses.LINES + 2, curses.COLS + 2, (-1, -1))
+	bounds.set_all(True)
+	bounds.add_rect(False, curses.LINES, curses.COLS, (1, 1))
+	bounds.add_rect(True, 1, 1, (curses.LINES, curses.COLS))
+	
 	while True:
 		# update visuals
 		stdscr.erase()
@@ -36,7 +41,7 @@ def main(stdscr: curses.window):
 		controller.run()
 		
 		# check collisions
-		if box.collides_point(pointer.next_position()):
+		if bounds.collides_point(pointer.next_position()):
 			pointer.cancel_transform()
 		
 	
