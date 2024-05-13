@@ -2,6 +2,7 @@ import curses
 from curses_controller import CursesController
 from cursor import Cursor
 from collisions_layer import CollisionsLayer
+from collisions_collection import CollisionsCollection
 
 curses.initscr()
 
@@ -27,6 +28,10 @@ def main(stdscr: curses.window):
 	bounds.set_all(True)
 	bounds.add_rect(False, curses.LINES, curses.COLS, (1, 1))
 	bounds.add_rect(True, 1, 1, (curses.LINES, curses.COLS))
+	
+	collection = CollisionsCollection()
+	collection.add(box, "box")
+	collection.add(bounds, "bounds")
 	
 	while True:
 		# update visuals

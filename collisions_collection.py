@@ -12,12 +12,13 @@ class CollisionsCollection:
 	def add(self, layer: CollisionsLayer, name: str, z_layer: int | None = None) -> None:
 		"""
 		Adds a layer with the given name and z-layer value to the collection of layers.
-		Will replace the layer with the same name if there is one.
+		Will replace the layer with the same name and layer if there is one.
 		:param name: The name of the layer.
 		:param z_layer: The z-layer value of the layer; higher number layers get rendered on top of lower number layers.
 			If the layer shouldn't be rendered, leave this value as None (default).
 		:param layer: The layer to be added.
 		"""
+		# TODO add a name auto-generator? decide whether you even want to keep names?
 		if z_layer is None:
 			self.collection.update({"no_render": {name: layer}})
 		self.collection.update({"render": {z_layer: {name: layer}}})
