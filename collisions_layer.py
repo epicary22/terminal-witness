@@ -51,13 +51,15 @@ class CollisionsLayer:
 		
 	def collides(self, other: "CollisionsLayer") -> bool:
 		"""
-		STUB
-		
 		Finds whether a different CollisionsLayer collides with this CollisionsLayer.
 		:param other: The other CollisionsLayer that may collide with this CollisionsLayer.
 		:return: Whether the two CollisionsLayers are colliding (True) or not (False).
 		"""
 		# TODO finish this method
+		for y in range(self.top_y, self.y_size):
+			for x in range(self.left_x, self.x_size):
+				if other.collides_point((y, x)):
+					return True
 		return False
 	
 	def collides_point(self, other_point: tuple[int, int]) -> bool:

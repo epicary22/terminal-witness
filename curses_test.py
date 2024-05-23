@@ -21,8 +21,6 @@ def main(stdscr: curses.window):
 			"l": pointer.right
 		}
 	)
-	box = CollisionsLayer(1, 1, (2, 2))
-	box.set_all(True)
 	
 	bounds = CollisionsLayer(curses.LINES + 2, curses.COLS + 2, (-1, -1))
 	bounds.set_all(True)
@@ -30,7 +28,6 @@ def main(stdscr: curses.window):
 	bounds.add_rect(True, 1, 1, (curses.LINES, curses.COLS))
 	
 	collection = CollisionsCollection()
-	collection.add(box, "box")
 	collection.add(bounds, "bounds")
 	
 	while True:
