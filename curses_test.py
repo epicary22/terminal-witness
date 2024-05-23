@@ -26,6 +26,7 @@ def main(stdscr: curses.window):
 	bounds.set_all(True)
 	bounds.add_rect(False, curses.LINES, curses.COLS, (1, 1))
 	bounds.add_rect(True, 1, 1, (curses.LINES, curses.COLS))
+	bounds.lock()
 	
 	collection = CollisionsCollection()
 	collection.add(bounds, "bounds")
