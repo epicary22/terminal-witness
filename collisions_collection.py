@@ -1,4 +1,4 @@
-from collisions_layer import CollisionsLayer
+from bitmap_layer import BitmapLayer
 
 
 def noop():
@@ -17,7 +17,7 @@ class CollisionsCollection:
 	
 	def add(
 		self,
-		layer: CollisionsLayer,
+		layer: BitmapLayer,
 		on_collision: () = noop,
 		z_layer: int | None = None,
 		name: str | None = None
