@@ -1,6 +1,6 @@
 import curses
 from curses_controller import CursesController
-from cursor import Cursor
+from transform_vector_2 import TransformVector2
 from bitmap_layer import BitmapLayer
 from collisions_collection import CollisionsCollection
 
@@ -11,7 +11,7 @@ def main(stdscr: curses.window):
 	curses.cbreak()
 	curses.curs_set(0)
 	
-	pointer = Cursor()
+	pointer = TransformVector2()
 	controller = CursesController(
 		stdscr.getkey,
 		{
