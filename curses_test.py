@@ -31,12 +31,14 @@ def main(stdscr: curses.window):
 	collection = CollisionsCollection()
 	collection.add(bounds, "bounds")
 	
+	curses.init_pair(255, 15, 255)
+	
 	while True:
 		# update visuals
 		stdscr.erase()
 
 		pointer.update()
-		stdscr.addstr(*pointer.position(), "X")
+		stdscr.addstr(*pointer.position(), "X", curses.color_pair(255))
 		
 		stdscr.refresh()
 		

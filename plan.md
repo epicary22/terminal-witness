@@ -18,6 +18,15 @@ SO ANYWAYS, the processors would require:
 * Collision: on_collision, during_collision, and out_collision methods
 * Render: color and character attributes
 
+So how would I hand it its requirements? I would make each GameObject have a list of RequirementPlugins that would tell it which requirements it needs. Though it would be nice to hand these in at the init... I want to somehow make the requirements branch out of the processors themselves. Is there any simpler way of doing this? I'm sure there is. This is just too abstracted, and I'm going to drive myself crazy like this. The thing is I want the objects to be able to reference each other and themselves, at that becomes seemingly impossible if I don't abstract it to this length. Maybe I still apply the processing tags at the GameObject level, but I don't actually say how they interact with each other until they reach the Collection level.
+
+What I want to happen is that when I (player) touch a button, it sends out a signal to turn another object yellow. So that's like 
+```py
+def on_collision(self_object, other_object):
+    obj_to_turn_yellow.color = Color.YELLOW
+```
+But I also want it to be static for the Witness. Aaaaaaaaaaaaaa this is why you use a prebuilt game engine. NO. I want to make my own engine once and for all!!!!!! I think I will have to define unique behaviors in script files that I attach to each object. That's the only feasible way it seems. But that's for another day. I need a starting point, and making the Witness seems to be a good one.
+
 
 
 
