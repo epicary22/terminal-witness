@@ -44,7 +44,7 @@ def main(stdscr: curses.window):
 		controller.run()
 		
 		# check collisions
-		if bounds.collides_point(pointer.next_position()):
+		if bounds.collides_point(*pointer.next_position()):
 			pointer.cancel_transform()
 		
 	
