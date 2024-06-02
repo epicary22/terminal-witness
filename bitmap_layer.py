@@ -73,9 +73,15 @@ class BitmapLayer:
 		:param other: The other layer that may collide with this layer.
 		:return: Whether the two layers are colliding (True) or not (False).
 		"""
-		for y in range(self.top_y, self.y_size):
-			for x in range(self.left_x, self.x_size):
-				if other.collides_point(y, x):
+		# define the area of possible collision
+		intersect_top_y = max(self.top_y, other.top_y)
+		intersect_left_x = max(self.left_x, other.left_x)
+		intersect_bottom_y = min(self.top_y + self.y_size, other.top_y + other.y_size)
+		intersect_right_x = min(self.left_x + self.x_size, other.left_x + other.x_size)
+		
+		for y in range(intersect_top_y, intersect_bottom_y):
+			for x in range(intersect_left_x, intersect_right_x):
+				if self.collides_point(y, x) and other.collides_point(y, x):
 					return True
 		return False
 	
