@@ -2,7 +2,9 @@ import curses
 from curses_controller import CursesController
 from transform_vector_2 import TransformVector2
 from bitmap_layer import BitmapLayer
-from collisions_collection import CollisionsCollection
+from bitmap_collection import BitmapCollection
+from collision_binder import CollisionBinder
+import terminal_witness
 
 curses.initscr()
 
@@ -11,25 +13,23 @@ def main(stdscr: curses.window):
 	curses.cbreak()
 	curses.curs_set(0)
 	
-	pointer = TransformVector2()
+	bitmaps = terminal_witness.bitmaps
+	player_pos = terminal_witness.player_pos
+	
 	controller = CursesController(
 		stdscr.getkey,
 		{
-			"h": pointer.left,
-			"j": pointer.down,
-			"k": pointer.up,
-			"l": pointer.right
+			"h": player_pos.left,
+			"j": player_pos.down,
+			"k": player_pos.up,
+			"l": player_pos.right
 		}
 	)
 	
-	bounds = BitmapLayer(curses.LINES + 2, curses.COLS + 2, (-1, -1))
-	bounds.set_all(True)
-	bounds.add_rect(False, curses.LINES, curses.COLS, (1, 1))
-	bounds.add_rect(True, 1, 1, (curses.LINES, curses.COLS))
-	bounds.lock()
+	binder = CollisionBinder(bitmaps)
 	
-	collection = CollisionsCollection()
-	collection.add(bounds, "bounds")
+	binder.bind("player_hitbox", "bounds", player_pos.cancel_transform)
+	binder.bind("player_hitbox", "rect", player_pos.zero_axes)
 	
 	curses.init_pair(255, 15, 255)
 	
@@ -37,17 +37,22 @@ def main(stdscr: curses.window):
 		# update visuals
 		stdscr.erase()
 
-		pointer.update()
-		stdscr.addstr(*pointer.position(), "X", curses.color_pair(255))
+		stdscr.addstr(str(binder.bindings))
+		player_pos.update()
+		bitmaps.get("player_hitbox").set_top_left(player_pos.position())
+		stdscr.addstr(*bitmaps.get("player_hitbox").top_left(), "X", curses.color_pair(255))
 		
 		stdscr.refresh()
 		
 		# take input
 		controller.run()
 		
+		# temp. make the player hitbox have the future position
+		bitmaps.get("player_hitbox").set_top_left(player_pos.next_position())
+		##
+		
 		# check collisions
-		if bounds.collides_point(*pointer.next_position()):
-			pointer.cancel_transform()
+		binder.tick()
 		
 	
 curses.wrapper(main)

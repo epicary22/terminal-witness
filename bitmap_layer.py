@@ -25,6 +25,13 @@ class BitmapLayer:
 		``[y * self.x_size + x]``, given ``x < self.x_size``.
 		"""
 		
+	def top_left(self) -> tuple[int, int]:
+		"""
+		Returns the top-left position of this BitmapLayer.
+		:return: The top-left position of this BitmapLayer.
+		"""
+		return self.top_y, self.left_x
+	
 	def lock(self) -> None:
 		"""
 		Locks the layer, preventing it from being changed.
@@ -68,7 +75,7 @@ class BitmapLayer:
 		"""
 		for y in range(self.top_y, self.y_size):
 			for x in range(self.left_x, self.x_size):
-				if other.collides_point((y, x)):
+				if other.collides_point(y, x):
 					return True
 		return False
 	
