@@ -8,8 +8,11 @@ from scene import Scene
 
 
 class TerminalWitness(Scene):
-	def __init__(self, stdscr: curses.window):
-		super().__init__(stdscr)
+	def __init__(self):
+		super().__init__()
+		
+		curses.cbreak()
+		curses.curs_set(0)
 		
 		self.bitmaps = BitmapCollection()
 		
@@ -36,7 +39,7 @@ class TerminalWitness(Scene):
 		self.binder.bind("player_hitbox", "rect", self.player_pos.zero_axes)
 		
 		self.controller = CursesController(
-			stdscr.getkey,
+			self.stdscr.getkey,
 			{
 				"h": self.player_pos.left,
 				"j": self.player_pos.down,

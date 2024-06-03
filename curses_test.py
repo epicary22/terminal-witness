@@ -1,17 +1,14 @@
 import curses
-import terminal_witness
+from scenes.terminal_witness import TerminalWitness
 
 curses.initscr()
 
 
 def main(stdscr: curses.window):
-	curses.cbreak()
-	curses.curs_set(0)
-	
-	game = terminal_witness.TerminalWitness(stdscr)
+	game = TerminalWitness()
 	
 	while True:
 		game.update()
-		
-	
+
+
 curses.wrapper(main)

@@ -7,10 +7,9 @@ class Scene(abc.ABC):
 	Abstract base class for all scenes based on the curses stdscr.
 	"""
 	@abc.abstractmethod
-	def __init__(self, stdscr: curses.window) -> None:
+	def __init__(self) -> None:
 		"""
 		Initializes the scene
-		:param stdscr:
 		"""
 		self.stdscr = curses.initscr()
 	
