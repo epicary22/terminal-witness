@@ -1,10 +1,6 @@
 from bitmap_layer import BitmapLayer
 
 
-def noop():
-	pass
-
-
 class BitmapCollection:
 	def __init__(self):
 		"""

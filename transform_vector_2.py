@@ -97,9 +97,16 @@ class TransformVector2:
 	
 	def update(self) -> None:
 		"""
-		Applies the current transform to the position of the vector, updating its position.
+		Applies the current transform to the position of the vector.
 		Resets the transformation to (0, 0).
 		"""
 		self.y, self.x = self.next_position()
 		self.transform_y, self.transform_x = (0, 0)
+		
+	def apply_transform(self) -> None:
+		"""
+		Applies the current transform to the position of the vector.
+		Does not reset the current transform.
+		"""
+		self.y, self.x = self.next_position()
 		

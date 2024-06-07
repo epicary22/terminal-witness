@@ -132,7 +132,7 @@ class BitmapLayer:
 		
 	def add_rect(self, state: bool, y_size: int, x_size: int, top_left: tuple[int, int] = (0, 0)) -> None:
 		"""
-		Turns a rectangular area on or off. If a part goes outside of the layer bounds, it will be ignored.
+		Turns a rectangular area on or off. If a part goes outside the layer bounds, it will be ignored.
 		
 		If this layer is locked, this does nothing.
 		:param state: Whether the rectangular area should be on (True) or off (False).

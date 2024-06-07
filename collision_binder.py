@@ -1,4 +1,3 @@
-from bitmap_layer import BitmapLayer
 from bitmap_collection import BitmapCollection
 
 
