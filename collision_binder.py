@@ -24,8 +24,18 @@ class CollisionBinder:
 		"""
 		Ticks the collision checker, running bound functions if objects collide.
 		"""
+		# update all bitmaps' positions temporarily
+		for bitmap_tuple in self.bindings.keys():
+			for bitmap in bitmap_tuple:
+				bitmap.temp_next_position()
+		
 		for bitmap_tuple, function in self.bindings.items():
 			bitmap_1, bitmap_2 = bitmap_tuple
 			if bitmap_1.collides(bitmap_2):
 				function()
+				
+		# set all bitmaps' positions to what they should be
+		for bitmap_tuple in self.bindings.keys():
+			for bitmap in bitmap_tuple:
+				bitmap.update_position()
 		

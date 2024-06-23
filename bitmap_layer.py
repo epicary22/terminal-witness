@@ -1,3 +1,6 @@
+from transform_vector_2 import TransformVector2
+
+
 class BitmapLayer:
 	def __init__(self, y_size: int, x_size: int, top_left: tuple[int, int] = (0, 0)) -> None:
 		"""
@@ -24,6 +27,7 @@ class BitmapLayer:
 		Internal list of values at points on the bitmap. A point at (y, x) would be found at list position
 		``[y * self.x_size + x]``, given ``x < self.x_size``.
 		"""
+		self.vector = TransformVector2((self.top_y, self.left_x))
 		
 	def top_left(self) -> tuple[int, int]:
 		"""
@@ -154,6 +158,36 @@ class BitmapLayer:
 		for y_coord in range(top_y, bottom_y):
 			for x_coord in range(left_x, right_x):
 				self.set_point(state, y_coord, x_coord)
+	
+	def return_to_position(self) -> None:
+		"""
+		Returns this bitmap to self.vector's position.
+		
+		Does nothing if this layer is locked.
+		"""
+		if not self.is_locked:
+			self.set_top_left(self.vector.position())
+	
+	def temp_next_position(self) -> None:
+		"""
+		Set the top-left position of this bitmap to self.vector's next position.
+		Does not change self.vector's current position.
+		
+		Does nothing if this layer is locked.
+		"""
+		if not self.is_locked:
+			self.set_top_left(self.vector.next_position())
+		
+	def update_position(self) -> None:
+		"""
+		Set the top-left position of this bitmap to self.vector's next position.
+		Updates self.vector to the new position and takes away its transform.
+		
+		Does nothing if this layer is locked.
+		"""
+		if not self.is_locked:
+			self.vector.update()
+			self.set_top_left(self.vector.position())
 	
 	def set_top_left(self, new_top_left: tuple[int, int]) -> None:
 		"""
