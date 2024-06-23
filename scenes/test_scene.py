@@ -29,10 +29,36 @@ class TestScene(Scene):
 		bounds.lock()
 		self.bitmaps.add(bounds, "bounds")
 		
-		player_hitbox = BitmapLayer(1, 1, (0, 0))
-		player_hitbox.set_all(True)
-		self.bitmaps.add(player_hitbox, "player_hitbox")
-		self.renderer.add(player_hitbox, "player_hitbox", "X", attrs=curses.A_NORMAL, color_pair=1)
+		berry_boy = BitmapLayer(8, 15, (10, 10))
+		berry_boy.add_rect(True, 1, 6, (0, 0))
+		berry_boy.add_rect(True, 1, 5, (0, 9))
+		berry_boy.set_point(True, *(1, 0))
+		berry_boy.add_rect(True, 1, 2, (1, 2))
+		berry_boy.set_point(True, *(1, 6))
+		berry_boy.set_point(True, *(1, 8))
+		berry_boy.add_rect(True, 1, 2, (1, 10))
+		berry_boy.set_point(True, *(1, 13))
+		berry_boy.set_point(True, *(3, 0))
+		berry_boy.set_point(True, *(3, 7))
+		berry_boy.set_point(True, *(4, 2))
+		berry_boy.add_rect(True, 1, 3, (4, 6))
+		berry_boy.set_point(True, *(4, 13))
+		berry_boy.add_rect(True, 1, 4, (5, 3))
+		berry_boy.add_rect(True, 1, 5, (5, 8))
+		berry_boy.set_point(True, *(7, 7))
+		self.bitmaps.add(berry_boy, "berry_boy")
+		self.renderer.add(berry_boy, "berry_boy", " ", attrs=curses.A_REVERSE, color_pair=1)
+		
+		needle = BitmapLayer(1, 10, (10, 40))
+		needle.set_all(True)
+		needle.lock()
+		self.bitmaps.add(needle, "needle")
+		self.renderer.add(needle, "needle", "<", attrs=curses.A_NORMAL, color_pair=2)
+		
+		# player_hitbox = BitmapLayer(1, 1, (0, 0))
+		# player_hitbox.set_all(True)
+		# self.bitmaps.add(player_hitbox, "player_hitbox")
+		# self.renderer.add(player_hitbox, "player_hitbox", "X", attrs=curses.A_NORMAL, color_pair=1)
 		
 		rect = BitmapLayer(3, 5, (1, 1))
 		rect.set_all(True)
@@ -42,16 +68,17 @@ class TestScene(Scene):
 		
 		self.binder = CollisionBinder(self.bitmaps)
 		
-		self.binder.bind("player_hitbox", "bounds", player_hitbox.vector.cancel_transform)
-		self.binder.bind("player_hitbox", "rect", player_hitbox.vector.cancel_transform)
+		self.binder.bind("berry_boy", "bounds", berry_boy.vector.cancel_transform)
+		self.binder.bind("berry_boy", "rect", berry_boy.vector.cancel_transform)
+		self.binder.bind("berry_boy", "needle", berry_boy.vector.cancel_transform)
 		
 		self.controller = CursesController(
 			self.stdscr.getkey,
 			{
-				"h": player_hitbox.vector.left,
-				"j": player_hitbox.vector.down,
-				"k": player_hitbox.vector.up,
-				"l": player_hitbox.vector.right
+				"h": berry_boy.vector.left,
+				"j": berry_boy.vector.down,
+				"k": berry_boy.vector.up,
+				"l": berry_boy.vector.right
 			}
 		)
 
