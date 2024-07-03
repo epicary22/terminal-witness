@@ -68,17 +68,17 @@ class TestScene(Scene):
 		
 		self.binder = CollisionBinder(self.bitmaps)
 		
-		self.binder.bind("berry_boy", "bounds", berry_boy.vector.cancel_transform)
-		self.binder.bind("berry_boy", "rect", berry_boy.vector.cancel_transform)
-		self.binder.bind("berry_boy", "needle", berry_boy.vector.cancel_transform)
+		self.binder.bind("berry_boy", "bounds", berry_boy.pos_vector.cancel_transform)
+		self.binder.bind("berry_boy", "rect", berry_boy.pos_vector.cancel_transform)
+		self.binder.bind("berry_boy", "needle", berry_boy.pos_vector.cancel_transform)
 		
 		self.controller = CursesController(
 			self.stdscr.getkey,
 			{
-				"h": berry_boy.vector.left,
-				"j": berry_boy.vector.down,
-				"k": berry_boy.vector.up,
-				"l": berry_boy.vector.right
+				"h": berry_boy.pos_vector.left,
+				"j": berry_boy.pos_vector.down,
+				"k": berry_boy.pos_vector.up,
+				"l": berry_boy.pos_vector.right
 			}
 		)
 

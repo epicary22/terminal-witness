@@ -27,7 +27,7 @@ class BitmapLayer:
 		Internal list of values at points on the bitmap. A point at (y, x) would be found at list position
 		``[y * self.x_size + x]``, given ``x < self.x_size``.
 		"""
-		self.vector = TransformVector2((self.top_y, self.left_x))
+		self.pos_vector = TransformVector2((self.top_y, self.left_x))
 		
 	def top_left(self) -> tuple[int, int]:
 		"""
@@ -166,7 +166,7 @@ class BitmapLayer:
 		Does nothing if this layer is locked.
 		"""
 		if not self.is_locked:
-			self.set_top_left(self.vector.position())
+			self.set_top_left(self.pos_vector.position())
 	
 	def temp_next_position(self) -> None:
 		"""
@@ -176,7 +176,7 @@ class BitmapLayer:
 		Does nothing if this layer is locked.
 		"""
 		if not self.is_locked:
-			self.set_top_left(self.vector.next_position())
+			self.set_top_left(self.pos_vector.next_position())
 		
 	def update_position(self) -> None:
 		"""
@@ -186,8 +186,8 @@ class BitmapLayer:
 		Does nothing if this layer is locked.
 		"""
 		if not self.is_locked:
-			self.vector.update()
-			self.set_top_left(self.vector.position())
+			self.pos_vector.update()
+			self.set_top_left(self.pos_vector.position())
 	
 	def set_top_left(self, new_top_left: tuple[int, int]) -> None:
 		"""

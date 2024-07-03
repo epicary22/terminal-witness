@@ -9,7 +9,7 @@ class Renderer:
 	
 	def add(
 		self, bitmap: BitmapLayer,
-		name: str, char: str, z_layer: int = 0, color_pair: int = -1, attrs: int = 0
+		name: str, char: str, z_layer: int = 0, color_pair: int = 1, attrs: int = curses.A_NORMAL
 		) -> None:
 		# register z-layer if it doesn't exist yet
 		if z_layer not in self.z_layers.keys():
@@ -39,12 +39,13 @@ class Renderer:
 		left_x = bitmap.left_x
 		right_x = bitmap.left_x + bitmap.x_size
 		attributes = render_obj["attrs"] | curses.color_pair(render_obj["color_pair"])
-		for y in range(top_y, bottom_y):
-			for x in range(left_x, right_x):
-				lookup_point = bitmap.relative_yx(y, x)
+		
+		for y_coord in range(top_y, bottom_y):
+			for x_coord in range(left_x, right_x):
+				lookup_point = bitmap.relative_yx(y_coord, x_coord)
 				if bitmap.bit_at_point(*lookup_point):
 					try:
-						self.window.addch(y, x, render_obj["char"], attributes)
+						self.window.addch(y_coord, x_coord, render_obj["char"], attributes)
 					except curses.error:
-						raise curses.error
+						pass  # just let things be rendered off-screen
 		

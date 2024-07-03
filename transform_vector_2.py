@@ -4,8 +4,8 @@ class TransformVector2:
 		A 2D vector that only moves when explicitly updated. -y is up, and +x is right.
 		:param starting_pos: The initial position of the cursor.
 		"""
-		self.x, self.y = starting_pos
-		self.transform_x, self.transform_y = (0, 0)
+		self.y, self.x = starting_pos
+		self.transform_y, self.transform_x = (0, 0)
 		
 	def zero_axes(self, y: bool = True, x: bool = True) -> None:
 		"""
