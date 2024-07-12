@@ -1,6 +1,11 @@
 # My Plan Right Now
-<hr>
+<hr />
+I want to make a generic <code>GridMap&lt;T&gt;</code>  class that I can base the BitMap, ColorMap, CharacterMap, and RasterMap off of. This class would have the Grid chassis (maybe that's another base class!) that can be moved, edited, locked, etc. Just, the editing is generic (have set_all, set_point, set_rect, etc. commands that work with type T). Then these higher classes can set that type T and define operations specific to itself (ex. to_caps for a CharacterMap). Also, the RasterMap would either be a has-a of Color- and CharacterMap, or it could be a <code>GridMap&lt;Pixel&gt;</code>. The choice is really mine.
 
+This won't be that hard to integrate... right?
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<code style="text-align:center">/////////////// warning! thoughts below ///////////////</code>  
 I want three BitmapCollections:
 * A physics one that is fed to a PhysicsHandler to handle physics every update
 * A collisions one that is fed to a CollisionsHandler to run actions upon/during collisions with objects (ex. standing on a switch)
@@ -9,7 +14,6 @@ I want three BitmapCollections:
 These three could all take the same objects.
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<code style="text-align:center">/////////////// warning! thoughts below ///////////////</code>  
 
 Okay hear me out: what if we had object take a list of tags that they'd use to figure out what their purposes are. So like ProcessingTag.RENDER, ProcessingTag.COLLIDE, ProcessingTag.PHYSICS, etc. These would be used to direct the layers to the right processors, and you could tell what processing a layer will get just by looking at the layer. At that point, each layer would also require an attribute that its processer requires of it... so the ProcessingTag thing would be directly connected to the requirements of the Processor. Okay okay okay so that means I need to Processors before I make the ProcessingTags, before I can make the BitmapObjects use these tags. Or maybe I can make stand-ins for now. Stub methods. The like.
 
