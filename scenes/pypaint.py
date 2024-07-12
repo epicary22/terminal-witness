@@ -7,22 +7,24 @@ from collision_binder import CollisionBinder
 from renderer import Renderer
 import time
 import random
+from enum import IntEnum
 
 
 class PyPaint(Scene):
-	BG_COLOR_PAIR = 1
+	class Colors(IntEnum):
+		BG = 1
+		CURSOR = 2
 	
 	def __init__(self):
 		super().__init__()
 		
 		self.screen_size_check()
-		
+		curses.resizeterm(24, 80)
 		curses.cbreak()
 		curses.curs_set(0)
-		curses.resizeterm(24, 80)
+		self.init_colors()
 		
-		curses.init_pair(self.BG_COLOR_PAIR, random.randint(9, 15), 0)
-		curses.init_pair(2, 15, 0)
+		self.end = False
 		
 		self.bitmaps = BitmapCollection()
 		self.collisions = CollisionBinder(self.bitmaps)
@@ -52,16 +54,16 @@ class PyPaint(Scene):
 		)
 		menu_border.lock()
 		self.bitmaps.add(menu_border, "menu_border")
-		self.renderer.add(menu_border, "menu_border", " ", attrs=curses.A_REVERSE, color_pair=1)
+		self.renderer.add(menu_border, "menu_border", " ", attrs=curses.A_REVERSE, color_pair=self.Colors.BG)
 		
 		canvas = BitmapLayer(*canvas_size, (1, 2))
 		self.bitmaps.add(canvas, "canvas")
-		self.renderer.add(canvas, "canvas", " ", z_layer=-1, attrs=curses.A_REVERSE, color_pair=2)
+		self.renderer.add(canvas, "canvas", " ", z_layer=-1, attrs=curses.A_REVERSE, color_pair=self.Colors.CURSOR)
 		
 		cursor = BitmapLayer(1, 1, (canvas_size[0] // 2, canvas_size[1] // 2))
 		cursor.set_all(True)
 		self.bitmaps.add(cursor, "cursor")
-		self.renderer.add(cursor, "cursor", "X", attrs=curses.A_NORMAL, color_pair=2)
+		self.renderer.add(cursor, "cursor", "X", attrs=curses.A_NORMAL, color_pair=self.Colors.CURSOR)
 		
 		# controler
 		self.controller = CursesController(
@@ -90,6 +92,10 @@ class PyPaint(Scene):
 		
 		self.collisions.tick()
 		
+	def init_colors(self) -> None:
+		curses.init_pair(self.Colors.BG, random.randint(9, 15), 0)
+		curses.init_pair(self.Colors.CURSOR, 15, 0)
+	
 	def screen_size_check(self):
 		max_y, max_x = self.stdscr.getmaxyx()
 		if max_y < 24 or max_x < 80:
@@ -105,7 +111,7 @@ class PyPaint(Scene):
 		# out of "game engine" mode
 		curses.echo()
 		curses.nocbreak()
-		self.stdscr.attrset(curses.color_pair(self.BG_COLOR_PAIR) | curses.A_REVERSE)
+		self.stdscr.attrset(curses.color_pair(self.Colors.BG) | curses.A_REVERSE)
 		
 		self.stdscr.move(self.stdscr.getmaxyx()[0] - 1, 0)
 		self.stdscr.addstr(":")
@@ -116,16 +122,23 @@ class PyPaint(Scene):
 			user_input = self.stdscr.getstr()
 		
 		self.stdscr.hline(self.stdscr.getmaxyx()[0] - 1, 0, " ", 100)
-		self.stdscr.addstr(1, 1, user_input, curses.color_pair(self.BG_COLOR_PAIR) | curses.A_REVERSE)
-		self.stdscr.move(self.stdscr.getmaxyx()[0] - 1, 1)
 		self.stdscr.refresh()
 		
-		if user_input == b"star":
-			proof_of_concept = BitmapLayer(3, 6, (2, 4))
-			proof_of_concept.add_rect(True, 3, 2, (0, 2))
-			proof_of_concept.add_rect(True, 1, 6, (1, 0))
-			self.renderer.add(proof_of_concept, "proof_of_concept", " ", attrs=curses.A_REVERSE, color_pair=self.BG_COLOR_PAIR)
-		
+		match user_input:
+			case b"q":
+				self.end = True
+			case b"star":
+				star = BitmapLayer(3, 6, (2, 4))
+				star.add_rect(True, 3, 2, (0, 2))
+				star.add_rect(True, 1, 6, (1, 0))
+				self.renderer.add(
+					star,
+					"star",
+					" ",
+					attrs=curses.A_REVERSE,
+					color_pair=self.Colors.BG
+				)
+				
 		# back into "game engine" mode
 		curses.noecho()
 		curses.cbreak()
