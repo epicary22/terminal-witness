@@ -6,7 +6,7 @@ curses.initscr()
 
 
 def main(stdscr: curses.window):
-	game = PyPaint()
+	game = TestScene()
 	
 	while not game.end:
 		game.update()

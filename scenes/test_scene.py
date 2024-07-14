@@ -8,6 +8,8 @@ from transform_vector_2 import TransformVector2
 from scene import Scene
 from random import randint
 
+from grid.layer_map import LayerMap
+
 
 class TestScene(Scene):
 	def __init__(self):
@@ -81,6 +83,10 @@ class TestScene(Scene):
 				"l": berry_boy.pos_vector.right
 			}
 		)
+		
+		layer_map = LayerMap(int, 2, 3, (0, 10))
+		layer_map.set_point((0, 1), 8)
+		raise Exception(str(layer_map.grid))
 
 	def update(self) -> None:
 		# update visuals

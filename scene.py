@@ -13,6 +13,7 @@ class Scene(abc.ABC):
 		Put your code to be called before the Scene starts here.
 		"""
 		self.stdscr = curses.initscr()
+		self.end = False
 	
 	@abc.abstractmethod
 	def update(self) -> None:
