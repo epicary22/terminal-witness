@@ -22,12 +22,16 @@ class Layer(Grid):
 	# 		return return_value
 	# 	return wrapper
 		
-	def r_point(self, point: tuple[int, int]) -> tuple[int, int]:
-		return point[0] - self._top_left[0], point[1] - self._top_left[1]
+	def r_point(self, point: tuple[int, int], use_future_positions: bool) -> tuple[int, int]:
+		if use_future_positions:
+			top_left = self.position.next_position()
+		else:
+			top_left = self.position.position()
+		return point[0] - top_left[0], point[1] - top_left[1]
 	
-	def r_value_at(self, point: tuple[int, int]) -> typing.Any:
-		return self.value_at(self.r_point(point))
+	def r_value_at(self, point: tuple[int, int], use_future_positions: bool) -> typing.Any:
+		return self.value_at(self.r_point(point, use_future_positions))
 	
-	def r_set_point(self, point: tuple[int, int], value: typing.Any) -> None:
-		self.set_point(self.r_point(point), value)
+	def r_set_point(self, point: tuple[int, int], value: typing.Any, use_future_positions: bool) -> None:
+		self.set_point(self.r_point(point, use_future_positions), value)
 		
