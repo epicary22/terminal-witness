@@ -7,12 +7,36 @@ class Grid:
 		self.height = height
 		self.width = width
 		self.grid = [[None] * width for _ in range(height)]
+		self.locked = False
+	
+	def value_at(self, point: tuple[int, int]) -> typing.Any:
+		self._point_in_bounds(point)
+		return self.grid[point[0]][point[1]]
+	
+	def lock(self) -> None:
+		self.locked = True
 		
+	def unlock(self) -> None:
+		self.locked = False
+	
+	@staticmethod
+	def _lockable(func: ()) -> ():
+		def wrapper(self: "Grid", *args, **kwargs):
+			if not self.locked:
+				func(self, *args, **kwargs)
+		return wrapper
+	
+	@_lockable
 	def set_point(self, point: tuple[int, int], value: typing.Any) -> None:
 		self._check_value_type(value)
 		self._point_in_bounds(point)
 		y, x = point
 		self.grid[y][x] = value
+		
+	@_lockable
+	def set_all(self, value: typing.Any) -> None:
+		self._check_value_type(value)
+		self.grid = [[value for column in row] for row in self.grid]
 		
 	def _check_value_type(self, value: typing.Any) -> None:
 		if type(value) is not self.t:

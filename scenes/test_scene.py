@@ -8,7 +8,8 @@ from transform_vector_2 import TransformVector2
 from scene import Scene
 from random import randint
 
-from grid.layer_map import LayerMap
+# from grid.layer import Layer
+import grid.bitmap_layer
 
 
 class TestScene(Scene):
@@ -84,9 +85,18 @@ class TestScene(Scene):
 			}
 		)
 		
-		layer_map = LayerMap(int, 2, 3, (0, 10))
-		layer_map.set_point((0, 1), 8)
-		raise Exception(str(layer_map.grid))
+		# layer_map = Layer(int, 2, 3, (0, 10))
+		# layer_map.set_point((0, 1), 8)
+		# layer_map.lock()
+		# layer_map.set_point((0, 1), 100)
+		# raise Exception(str(layer_map.grid))
+		bl = grid.bitmap_layer.BitmapLayer(2, 3, (0, 0))
+		bl.set_all(True)
+		bl2 = grid.bitmap_layer.BitmapLayer(5, 5, (1, 1))
+		bl2.set_point((1, 0), True)
+		bl.position.add_transform((2, 1))
+		intersection = bl2.future_intersect(bl)
+		raise Exception(bl.future_collides(bl2), intersection.position.position(), intersection.grid)
 
 	def update(self) -> None:
 		# update visuals
