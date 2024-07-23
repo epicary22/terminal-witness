@@ -4,6 +4,9 @@ import typing
 
 
 class Layer(Grid):
+	MIN_MOVEMENT_PERCENT = 0.001
+	MAX_MOVEMENT_PERCENT = 1.000
+	
 	def __init__(self, t: type, height: int, width: int, top_left: tuple[int, int]) -> None:
 		super().__init__(t, height, width)
 		self.position = TransformVector2(top_left)
@@ -22,16 +25,16 @@ class Layer(Grid):
 	# 		return return_value
 	# 	return wrapper
 		
-	def r_point(self, point: tuple[int, int], use_future_positions: bool) -> tuple[int, int]:
-		if use_future_positions:
-			top_left = self.position.next_position()
+	def r_point(self, point: tuple[int, int], movement_percent: float) -> tuple[int, int]:
+		if movement_percent >= Layer.MIN_MOVEMENT_PERCENT:
+			top_left = self.position.lerp(movement_percent)
 		else:
 			top_left = self.position.position()
 		return point[0] - top_left[0], point[1] - top_left[1]
 	
-	def r_value_at(self, point: tuple[int, int], use_future_positions: bool) -> typing.Any:
-		return self.value_at(self.r_point(point, use_future_positions))
+	def r_value_at(self, point: tuple[int, int], movement_percent: float) -> typing.Any:
+		return self.value_at(self.r_point(point, movement_percent))
 	
-	def r_set_point(self, point: tuple[int, int], value: typing.Any, use_future_positions: bool) -> None:
-		self.set_point(self.r_point(point, use_future_positions), value)
+	def r_set_point(self, point: tuple[int, int], value: typing.Any, movement_percent: float) -> None:
+		self.set_point(self.r_point(point, movement_percent), value)
 		

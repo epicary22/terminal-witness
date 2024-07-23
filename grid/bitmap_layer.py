@@ -6,10 +6,10 @@ class BitmapLayer(Layer):
 		super().__init__(bool, height, width, top_left)
 		self.set_all(False)
 	
-	def intersect(self, other: "BitmapLayer", use_future_positions: bool) -> "BitmapLayer":
-		if use_future_positions:
-			self_tl = self.position.next_position()
-			other_tl = other.position.next_position()
+	def intersect(self, other: "BitmapLayer", movement_percent: float) -> "BitmapLayer":
+		if movement_percent >= Layer.MIN_MOVEMENT_PERCENT:
+			self_tl = self.position.lerp(movement_percent)
+			other_tl = other.position.lerp(movement_percent)
 		else:
 			self_tl = self.position.position()
 			other_tl = other.position.position()
@@ -20,12 +20,15 @@ class BitmapLayer(Layer):
 		intersect_br = (min(self_br[0], other_br[0]), min(self_br[1], other_br[1]))
 		intersect_height = intersect_br[0] - intersect_tl[0] + 1
 		intersect_width = intersect_br[1] - intersect_tl[1] + 1
-		intersection = BitmapLayer(intersect_height, intersect_width, intersect_tl)
+		if intersect_width > 0 and intersect_width > 0:
+			intersection = BitmapLayer(intersect_height, intersect_width, intersect_tl)
+		else:
+			return BitmapLayer(0, 0, (0, 0))
 		
 		for y in range(intersect_tl[0], intersect_br[0] + 1):
 			for x in range(intersect_tl[1], intersect_br[1] + 1):
-				if self.r_value_at((y, x), use_future_positions) and other.r_value_at((y, x), use_future_positions):
-					intersection.r_set_point((y, x), True, use_future_positions)
+				if self.r_value_at((y, x), movement_percent) and other.r_value_at((y, x), movement_percent):
+					intersection.r_set_point((y, x), True, movement_percent)
 		
 		return intersection
 	
@@ -40,8 +43,8 @@ class BitmapLayer(Layer):
 	# 	other._top_left = other_old_position
 	# 	return intersection
 	
-	def collides(self, other: "BitmapLayer", use_future_positions: bool) -> bool:
-		intersect_grid = self.intersect(other, use_future_positions).grid
+	def collides(self, other: "BitmapLayer", movement_percent: float) -> bool:
+		intersect_grid = self.intersect(other, movement_percent).grid
 		for row in intersect_grid:
 			for value in row:
 				if value:

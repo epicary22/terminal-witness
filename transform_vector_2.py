@@ -1,3 +1,6 @@
+import math
+
+
 class TransformVector2:
 	def __init__(self, starting_pos: tuple[int, int] = (0, 0)) -> None:
 		"""
@@ -94,6 +97,13 @@ class TransformVector2:
 		:return: The position of the vector after applying its transform.
 		"""
 		return self.y + self.transform_y, self.x + self.transform_x
+
+	def lerp(self, percent: float) -> tuple[int, int]:
+		"""
+		Returns the position the vector will have after applying ``percent`` of its transform, in (y, x) form.
+		:return: The position the vector will have after applying ``percent`` of its transform
+		"""
+		return self.y + math.floor(self.transform_y * percent), self.x + math.floor(self.transform_x * percent)
 	
 	def update(self) -> None:
 		"""
