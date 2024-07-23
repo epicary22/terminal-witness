@@ -96,7 +96,13 @@ class TestScene(Scene):
 		bl2.set_point((1, 1), True)
 		bl.position.add_transform((2, 1))
 		intersection = bl2.intersect(bl, 0.5)
-		raise Exception(bl.collides(bl2, 0.5), intersection.position.position(), intersection.grid)
+		rect = grid.bitmap_layer.BitmapLayer(4, 6, (0, 5))
+		rect.position.add_transform((1, 1))
+		rect.r_add_rect(4, 6, (0, 5), True, 0.5)
+		# rect.add_rect(2, 4, (1, 1), True)
+		# rect.add_rect(1, 2, (2, 2), False)
+		raise Exception(rect.grid)
+		# raise Exception(bl.collides(bl2, 0.5), intersection.position.position(), intersection.grid)
 
 	def update(self) -> None:
 		# update visuals

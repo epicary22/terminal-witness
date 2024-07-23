@@ -29,9 +29,22 @@ class Grid:
 	@_lockable
 	def set_point(self, point: tuple[int, int], value: typing.Any) -> None:
 		self._check_value_type(value)
-		self._point_in_bounds(point)
+		try:
+			self._point_in_bounds(point)
+		except ValueError:
+			return
 		y, x = point
 		self.grid[y][x] = value
+		
+	@_lockable
+	def add_rect(self, height: int, width: int, top_left: tuple[int, int], value: typing.Any) -> None:
+		self._check_value_type(value)
+		start_y, start_x = top_left
+		end_y = min(start_y + height - 1, self.height - 1)
+		end_x = min(start_x + width - 1, self.width - 1)
+		for y in range(start_y, end_y + 1):
+			for x in range(start_x, end_x + 1):
+				self.set_point((y, x), value)
 		
 	@_lockable
 	def set_all(self, value: typing.Any) -> None:

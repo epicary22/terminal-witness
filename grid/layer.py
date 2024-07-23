@@ -38,3 +38,6 @@ class Layer(Grid):
 	def r_set_point(self, point: tuple[int, int], value: typing.Any, movement_percent: float) -> None:
 		self.set_point(self.r_point(point, movement_percent), value)
 		
+	def r_add_rect(self, height: int, width: int, top_left: tuple[int, int], value: typing.Any, movement_percent: float) -> None:
+		self.add_rect(height, width, self.r_point(top_left, movement_percent), value)
+	
