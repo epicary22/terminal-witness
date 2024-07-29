@@ -32,17 +32,6 @@ class BitmapLayer(Layer):
 		
 		return intersection
 	
-	# @Layer._use_future_positions
-	# def future_intersect(self, other: "BitmapLayer") -> "BitmapLayer":
-	# 	self_old_position = self._top_left
-	# 	other_old_position = other._top_left
-	# 	self._top_left = self.position.next_position()
-	# 	other._top_left = other.position.next_position()
-	# 	intersection = self.intersect(other)
-	# 	self._top_left = self_old_position
-	# 	other._top_left = other_old_position
-	# 	return intersection
-	
 	def collides(self, other: "BitmapLayer", movement_percent: float) -> bool:
 		intersect_grid = self.intersect(other, movement_percent).grid
 		for row in intersect_grid:
@@ -50,15 +39,4 @@ class BitmapLayer(Layer):
 				if value:
 					return True
 		return False
-	
-	# @Layer._use_future_positions
-	# def future_collides(self, other: "BitmapLayer") -> bool:
-	# 	self_old_position = self._top_left
-	# 	other_old_position = other._top_left
-	# 	self._top_left = self.position.next_position()
-	# 	other._top_left = other.position.next_position()
-	# 	collides = self.collides(other)
-	# 	self._top_left = self_old_position
-	# 	other._top_left = other_old_position
-	# 	return collides
 	
