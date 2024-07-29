@@ -6,7 +6,7 @@ class BitmapLayer(Layer):
 		super().__init__(bool, height, width, top_left)
 		self.set_all(False)
 	
-	def intersect(self, other: "BitmapLayer", movement_percent: float) -> "BitmapLayer":
+	def intersect(self, other: "BitmapLayer", movement_percent: float = 0.0) -> "BitmapLayer":
 		if movement_percent >= Layer.MIN_MOVEMENT_PERCENT:
 			self_tl = self.position.lerp(movement_percent)
 			other_tl = other.position.lerp(movement_percent)
