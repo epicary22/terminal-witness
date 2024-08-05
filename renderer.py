@@ -32,8 +32,8 @@ class Renderer:
 		bottom_y = top_y + layer.height - 1
 		right_x = left_x + layer.width - 1
 		
-		for y in range(top_y, bottom_y):
-			for x in range(left_x, right_x):
+		for y in range(top_y, bottom_y + 1):
+			for x in range(left_x, right_x + 1):
 				point_contents = layer.r_value_at((y, x))
 				if point_contents:
 					try:

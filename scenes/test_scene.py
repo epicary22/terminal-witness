@@ -7,6 +7,9 @@ from curses_controller import CursesController
 from scene import Scene
 from random import randint
 
+def crash(info):
+	raise Exception(info)
+
 
 class TestScene(Scene):
 	def __init__(self):
@@ -18,6 +21,7 @@ class TestScene(Scene):
 		curses.init_pair(1, randint(0, 255), randint(0, 255))
 		curses.init_pair(2, randint(0, 255), randint(0, 255))
 		
+		self.binder = CollisionBinder(3)
 		self.renderer = Renderer(self.stdscr, curses.color_pair(1))
 		
 		bounds = BitmapLayer(curses.LINES + 2, curses.COLS + 2, (-1, -1))
@@ -26,6 +30,10 @@ class TestScene(Scene):
 		bounds.add_rect(1, 1, (curses.LINES, curses.COLS), True)
 		bounds.lock()
 		self.renderer.add("bounds", bounds, 999)
+		
+		cursor = BitmapLayer(1, 1, (15, 30))
+		cursor.set_all(True)
+		self.renderer.add("cursor", cursor)
 		
 		berry_boy = BitmapLayer(8, 15, (10, 10))
 		berry_boy.add_rect(1, 6, (0, 0), True)
@@ -45,9 +53,8 @@ class TestScene(Scene):
 		berry_boy.add_rect(1, 5, (5, 8), True)
 		berry_boy.set_point((7, 7), True)
 		self.renderer.add("berry_boy", berry_boy)
-		self.berry_boy = berry_boy
 		
-		needle = BitmapLayer(1, 10, (10, 40))
+		needle = BitmapLayer(4, 10, (10, 40))
 		needle.set_all(True)
 		needle.lock()
 		self.renderer.add("needle", needle)
@@ -62,11 +69,9 @@ class TestScene(Scene):
 		rect.lock()
 		self.renderer.add("rect", rect)
 		
-		# self.binder = CollisionBinder(self.bitmaps)
-		#
-		# self.binder.bind("berry_boy", "bounds", berry_boy.pos_vector.cancel_transform)
-		# self.binder.bind("berry_boy", "rect", berry_boy.pos_vector.cancel_transform)
-		# self.binder.bind("berry_boy", "needle", berry_boy.pos_vector.cancel_transform)
+		self.binder.bind(berry_boy, bounds, lambda: crash("hit the bounds"))
+		self.binder.bind(berry_boy, rect, berry_boy.position.cancel_transform)
+		self.binder.bind(berry_boy, needle, berry_boy.position.cancel_transform)
 		
 		self.controller = CursesController(
 			self.stdscr.getkey,
@@ -107,8 +112,7 @@ class TestScene(Scene):
 		
 		# take input
 		self.controller.run()
-		self.berry_boy.position.update()
 
 		# check collisions
-		# self.binder.tick()
+		self.binder.tick()
 		
