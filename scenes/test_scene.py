@@ -7,6 +7,7 @@ from curses_controller import CursesController
 from scene import Scene
 from random import randint
 
+
 def crash(info):
 	raise Exception(info)
 
@@ -58,11 +59,6 @@ class TestScene(Scene):
 		needle.set_all(True)
 		needle.lock()
 		self.renderer.add("needle", needle)
-		
-		# player_hitbox = BitmapLayer(1, 1, (0, 0))
-		# player_hitbox.set_all(True)
-		# self.bitmaps.add(player_hitbox, "player_hitbox")
-		# self.renderer.add(player_hitbox, "player_hitbox", "X", attrs=curses.A_NORMAL, color_pair=1)
 		
 		rect = BitmapLayer(3, 5, (1, 1))
 		rect.set_all(True)

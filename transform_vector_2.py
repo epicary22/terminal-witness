@@ -103,7 +103,7 @@ class TransformVector2:
 		Returns the position the vector will have after applying ``percent`` of its transform, in (y, x) form.
 		:return: The position the vector will have after applying ``percent`` of its transform
 		"""
-		return self.y + math.floor(self.transform_y * percent), self.x + math.floor(self.transform_x * percent)
+		return self.y + round(self.transform_y * percent), self.x + round(self.transform_x * percent)
 	
 	def update(self) -> None:
 		"""
