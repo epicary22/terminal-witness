@@ -2,6 +2,7 @@ import curses
 import typing
 from grid.layer import Layer
 from grid.bitmap_layer import BitmapLayer
+import random
 
 
 class Renderer:
@@ -37,13 +38,13 @@ class Renderer:
 				point_contents = layer.r_value_at((y, x))
 				if point_contents:
 					try:
-						self.window.addch(y, x, *self._generate_cell_graphic(layer_type, point_contents))
+						self.window.addstr(y, x, *self._generate_cell_graphic(layer_type, point_contents))
 					except curses.error:
 						pass  # just let things be rendered off-screen
 				
 	def _generate_cell_graphic(self, layer_type: type, point_contents: typing.Any) -> tuple[str, int]:
 		if layer_type is BitmapLayer:
-			return " ", self.default_attributes
+			return "#", self.default_attributes
 		elif layer_type is Layer:
 			return (str(point_contents) + " ")[0], self.default_attributes
 		
