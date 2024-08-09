@@ -2,7 +2,6 @@ import curses
 import typing
 from grid.layer import Layer
 from grid.bitmap_layer import BitmapLayer
-import random
 
 
 class Renderer:

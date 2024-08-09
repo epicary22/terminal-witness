@@ -56,28 +56,30 @@ class PyPaint(Scene):
 		canvas = BitmapLayer(*canvas_size, (1, 2))
 		canvas.set_all(False)
 		self.renderer.add("canvas", canvas)
+		self.canvas = canvas
 		
-		cursor = BitmapLayer(1, 1, (canvas_size[0] // 2, canvas_size[1] // 2))
-		cursor.set_all(True)
-		self.renderer.add("cursor", cursor)
+		brush = BitmapLayer(1, 1, (canvas_size[0] // 2, canvas_size[1] // 2))
+		brush.set_all(True)
+		self.renderer.add("brush", brush)
+		self.brush = brush
 		
 		# controller
 		self.controller = CursesController(
 			self.stdscr.getkey,
 			{
-				"h": cursor.position.left,
-				"j": cursor.position.down,
-				"k": cursor.position.up,
-				"l": cursor.position.right,
-				"f": lambda: canvas.r_set_point(cursor.position.position(), True),
-				"d": lambda: canvas.r_set_point(cursor.position.position(), False),
+				"h": brush.position.left,
+				"j": brush.position.down,
+				"k": brush.position.up,
+				"l": brush.position.right,
+				"f": lambda: canvas.r_set_point(brush.position.position(), True),
+				"d": lambda: canvas.r_set_point(brush.position.position(), False),
 				"c": lambda: canvas.set_all(False),
 				":": self.colon_command
 			}
 		)
 		
 		# collisions
-		self.binder.bind(cursor, menu_border, cursor.position.cancel_transform)
+		self.binder.bind(brush, menu_border, brush.position.cancel_transform)
 		
 	def update(self) -> None:
 		self.stdscr.erase()
@@ -135,4 +137,4 @@ class PyPaint(Scene):
 		curses.noecho()
 		curses.cbreak()
 		self.stdscr.attrset(curses.A_NORMAL)
-		
+	
