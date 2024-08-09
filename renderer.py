@@ -2,6 +2,7 @@ import curses
 import typing
 from grid.layer import Layer
 from grid.bitmap_layer import BitmapLayer
+from grid.display_layer import DisplayLayer
 
 
 class Renderer:
@@ -44,6 +45,8 @@ class Renderer:
 	def _generate_cell_graphic(self, layer_type: type, point_contents: typing.Any) -> tuple[str, int]:
 		if layer_type is BitmapLayer:
 			return "#", self.default_attributes
+		elif layer_type is DisplayLayer:
+			return point_contents[0][0], point_contents[1]
 		elif layer_type is Layer:
 			return (str(point_contents) + " ")[0], self.default_attributes
 		

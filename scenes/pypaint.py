@@ -2,6 +2,7 @@ import curses
 from scene import Scene
 from curses_controller import CursesController
 from grid.bitmap_layer import BitmapLayer
+from grid.display_layer import DisplayLayer
 from collision_binder import CollisionBinder
 from renderer import Renderer
 import time
@@ -62,6 +63,10 @@ class PyPaint(Scene):
 		brush.set_all(True)
 		self.renderer.add("brush", brush)
 		self.brush = brush
+		
+		test = DisplayLayer(10, 10, (10, 10))
+		test.set_all(("X", curses.color_pair(self.Colors.CURSOR)))
+		self.renderer.add("test", test, -1)
 		
 		# controller
 		self.controller = CursesController(
