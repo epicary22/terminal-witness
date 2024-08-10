@@ -1,8 +1,23 @@
 import typing
+import types
+
+
+def _recursive_type_check(obj: typing.Any, type_: types.GenericAlias | type) -> bool:
+	if isinstance(type_, types.GenericAlias):
+		type_args = type_.__args__
+		if not isinstance(obj, type_.__origin__) or len(obj) != len(type_args):
+			return False
+		else:
+			for i in range(len(type_args)):
+				if not _recursive_type_check(obj[i], type_args[i]):
+					return False
+			return True
+	else:
+		return isinstance(obj, type_)
 
 
 class Grid:
-	def __init__(self, t: type, height: int, width: int) -> None:
+	def __init__(self, t: type | types.GenericAlias, height: int, width: int) -> None:
 		self.t = t
 		self.height = height
 		self.width = width
@@ -52,9 +67,9 @@ class Grid:
 		self.grid = [[value for column in row] for row in self.grid]
 		
 	def _check_value_type(self, value: typing.Any) -> None:
-		if type(value) is not self.t:
+		if not _recursive_type_check(value, self.t):
 			raise TypeError(
-				f"Value '{value}' (type '{type(value).__name__}') must be of type '{self.t.__name__}' for "
+				f"Value '{value}' ({type(value)}) must be of type '{self.t}' for "
 				f"{self} ({self.height}x{self.width})"
 			)
 		

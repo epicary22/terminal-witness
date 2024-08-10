@@ -6,7 +6,7 @@ class DisplayLayer(Layer):
 		"""
 		Type of each pixel: tuple[str, int]
 		"""
-		super().__init__(tuple, height, width, top_left)
+		super().__init__(tuple[str, int], height, width, top_left)
 		self.set_all(("", 0))
 		
 	def set_attribute_all(self, attribute: int) -> None:
