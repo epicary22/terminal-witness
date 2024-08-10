@@ -7,7 +7,7 @@ import types
 class Layer(Grid):
 	_next_uid = 0
 	
-	def __init__(self, t: type | types.GenericAlias, height: int, width: int, top_left: tuple[int, int]) -> None:
+	def __init__(self, t: type | types.GenericAlias | types.UnionType, height: int, width: int, top_left: tuple[int, int]) -> None:
 		super().__init__(t, height, width)
 		self.position = TransformVector2(top_left)
 		self._top_left = self.position.position()

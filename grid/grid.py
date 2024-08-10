@@ -2,8 +2,13 @@ import typing
 import types
 
 
-def _recursive_type_check(obj: typing.Any, type_: types.GenericAlias | type) -> bool:
-	if isinstance(type_, types.GenericAlias):
+def _recursive_type_check(obj: typing.Any, type_: types.UnionType | types.GenericAlias | type) -> bool:
+	if isinstance(type_, types.UnionType):  # union type checking
+		for unioned_type in type_.__args__:
+			if _recursive_type_check(obj, unioned_type):
+				return True
+		return False
+	elif isinstance(type_, types.GenericAlias):  # iterable type checking
 		type_args = type_.__args__
 		if not isinstance(obj, type_.__origin__) or len(obj) != len(type_args):
 			return False
@@ -12,7 +17,7 @@ def _recursive_type_check(obj: typing.Any, type_: types.GenericAlias | type) -> 
 				if not _recursive_type_check(obj[i], type_args[i]):
 					return False
 			return True
-	else:
+	else:  # normal type checking
 		return isinstance(obj, type_)
 
 
