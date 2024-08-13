@@ -22,7 +22,7 @@ def _recursive_type_check(obj: typing.Any, type_: types.UnionType | types.Generi
 
 
 class Grid:
-	def __init__(self, t: type | types.GenericAlias, height: int, width: int) -> None:
+	def __init__(self, t: type | types.GenericAlias | types.UnionType, height: int, width: int) -> None:
 		self.t = t
 		self.height = height
 		self.width = width
@@ -59,12 +59,27 @@ class Grid:
 	@_lockable
 	def add_rect(self, height: int, width: int, top_left: tuple[int, int], value: typing.Any) -> None:
 		self._check_value_type(value)
-		start_y, start_x = top_left
-		end_y = min(start_y + height - 1, self.height - 1)
-		end_x = min(start_x + width - 1, self.width - 1)
+		start_y = max(0, top_left[0])
+		start_x = max(0, top_left[1])
+		end_y = min(top_left[0] + height - 1, self.height - 1)
+		end_x = min(top_left[1] + width - 1, self.width - 1)
 		for y in range(start_y, end_y + 1):
 			for x in range(start_x, end_x + 1):
 				self.set_point((y, x), value)
+	
+	def add_grid(self, other: "Grid", top_left: tuple[int, int]) -> None:
+		if self.t != other.t:
+			raise TypeError(
+				f"Grid types {self.t} ({self.height}x{self.width}) and "
+				f"{other.t} ({other.height}x{other.width}) are incompatible"
+			)
+		start_y = max(0, top_left[0])
+		start_x = max(0, top_left[1])
+		end_y = min(top_left[0] + other.height - 1, self.height - 1)
+		end_x = min(top_left[1] + other.width - 1, self.width - 1)
+		for y in range(start_y, end_y + 1):
+			for x in range(start_x, end_x + 1):
+				self.set_point((y, x), other.value_at((y - start_y, x - start_x)))
 		
 	@_lockable
 	def set_all(self, value: typing.Any) -> None:

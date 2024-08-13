@@ -1,6 +1,7 @@
 import curses
 from grid.bitmap_layer import BitmapLayer
 from grid.layer import Layer
+from grid.grid import Grid
 from renderer import Renderer
 from collision_binder import CollisionBinder
 from curses_controller import CursesController
@@ -97,6 +98,32 @@ class TestScene(Scene):
 		# # rect.add_rect(1, 2, (2, 2), False)
 		# raise Exception(rect.grid)
 		# # raise Exception(bl.collides(bl2, 0.5), intersection.position.position(), intersection.grid)
+		# g = Grid(bool | None, 3, 3)
+		# g.add_rect(2, 2, (0, 0), True)
+		# g2 = Grid(bool | None, 5, 5)
+		# g2.set_all(True)
+		# g.add_grid(g2, (-1, -1))
+		# raise Exception(g.grid)
+		# l = Layer(int | None, 4, 4, (0, 0))
+		# l2 = Layer(int | None, 4, 3, (1, 1))
+		# l2.set_all(1)
+		# l2.r_add_grid(l)
+		# raise Exception(l2.grid)
+		b = BitmapLayer(4, 4, (0, 0))
+		b2 = BitmapLayer(4, 4, (0, 4))
+		b2.set_all(True)
+		b.position.add_transform((4, 4))
+		b2.position.add_transform((4, -4))
+		results = ""
+		for i in range(5):
+			b.r_add_grid(b2, i / 4)
+			results += str(b.grid) + "\n\n"
+			b.set_all(False)
+		raise Exception(results)
+		
+	
+		# you can get the attributes of a character with stdscr.inch(y, x) >> 8
+		# you can get the color pair number by doing & 255
 
 	def update(self) -> None:
 		# update visuals

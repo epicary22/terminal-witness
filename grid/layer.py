@@ -26,6 +26,9 @@ class Layer(Grid):
 	def r_add_rect(self, height: int, width: int, top_left: tuple[int, int], value: typing.Any) -> None:
 		self.add_rect(height, width, self.r_point(top_left), value)
 	
+	def r_add_grid(self, other: "Layer") -> None:
+		self.add_grid(other, self.r_point(other.position.position()))
+		
 	@staticmethod
 	def _generate_uid():
 		uid = Layer._next_uid

@@ -26,6 +26,9 @@ class BitmapLayer(Layer):
 		self, height: int, width: int, top_left: tuple[int, int], value: typing.Any, movement_percent: float = 0.0
 		) -> None:
 		self.add_rect(height, width, self.r_point(top_left, movement_percent), value)
+		
+	def r_add_grid(self, other: "BitmapLayer", movement_percent: float = 0.0):
+		self.add_grid(other, self.r_point(other.position.lerp(movement_percent), movement_percent))
 	
 	def intersect(self, other: "BitmapLayer", movement_percent: float = 0.0) -> "BitmapLayer":
 		if movement_percent >= BitmapLayer.MIN_MOVEMENT_PERCENT:
