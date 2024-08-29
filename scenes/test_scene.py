@@ -105,21 +105,21 @@ class TestScene(Scene):
 		# g.add_grid(g2, (-1, -1))
 		# raise Exception(g.grid)
 		# l = Layer(int | None, 4, 4, (0, 0))
-		# l2 = Layer(int | None, 4, 3, (1, 1))
+		# l2 = Layer(int | None, 4, 3, (1, 1))cccc
 		# l2.set_all(1)
 		# l2.r_add_grid(l)
 		# raise Exception(l2.grid)
-		b = BitmapLayer(4, 4, (0, 0))
-		b2 = BitmapLayer(4, 4, (0, 4))
-		b2.set_all(True)
-		b.position.add_transform((4, 4))
-		b2.position.add_transform((4, -4))
-		results = ""
-		for i in range(5):
-			b.r_add_grid(b2, i / 4)
-			results += str(b.grid) + "\n\n"
-			b.set_all(False)
-		raise Exception(results)
+		# b = BitmapLayer(4, 4, (0, 0))
+		# b2 = BitmapLayer(4, 4, (0, 4))
+		# b2.set_all(True)
+		# b.position.add_transform((4, 4))
+		# b2.position.add_transform((4, -4))
+		# results = ""
+		# for i in range(5):
+		# 	b.r_add_grid(b2, i / 4)
+		# 	results += str(b.grid) + "\n\n"
+		# 	b.set_all(False)
+		# raise Exception(results)
 		
 	
 		# you can get the attributes of a character with stdscr.inch(y, x) >> 8

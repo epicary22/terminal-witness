@@ -46,7 +46,7 @@ class Renderer:
 		if layer_type is BitmapLayer:
 			return "#", self.default_attributes
 		elif layer_type is DisplayLayer:
-			return point_contents[0][0], point_contents[1]
+			return point_contents[0][0], curses.color_pair(point_contents[1])
 		elif layer_type is Layer:
 			return (str(point_contents) + " ")[0], self.default_attributes
 		
