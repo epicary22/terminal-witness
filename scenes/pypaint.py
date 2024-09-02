@@ -167,6 +167,8 @@ class PyPaint(Scene):
 							curses.init_pair(self.Colors.COLON, 0, int(args[0]))
 			case b"clear":
 				self.canvas.set_all(None)
+				self.current_brush_color = self.Colors.CURSOR
+				self.brush_colors_registered = 0
 		
 		# back into "game engine" mode
 		curses.noecho()
